@@ -79,18 +79,18 @@ function SessionListing() {
 
   useEffect(() => {
    
-    axios.get('/api/Sessions').then((response) => {
+    axios.get('http://localhost:3000/Sessions').then((response) => {
       setSessions(response.data);
     });
   }, []); 
 
-  const claimSession = (sessionId) => {
+  const claimSession = (Session_id) => {
    
-    axios.post(`/api/Sessions/${sessionId}/claim`).then(() => {
+    axios.post(`http://localhost:3000/Sessions/${Session_id}/claim`).then(() => {
      
       setSessions((prevSessions) => {
         return prevSessions.map((session) => {
-          if (session.id === sessionId) {
+          if (session.id === Session_id) {
             return { ...session, claimed: true };
           }
           return session;

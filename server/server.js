@@ -1,5 +1,5 @@
 const bodyParser = require("body-parser");
-const Session = require('express');
+const express = require('express');
 const cors = require('cors');
 const app = express();
 
@@ -23,6 +23,9 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
 
 require("dotenv").config();
 const { Client } = require('pg');
@@ -36,6 +39,14 @@ const db = new Client({
   server_url: process.env.SERVER_URL,
   ssl: true
 });
+
+// const db = new Client({
+//   user: "salihapopal",
+//   host: "localhost",
+//   database: "city-farm",
+//   password: "",
+//   port: 5432,
+// });
 
 db.connect(function (err){
   if (err) {
@@ -106,7 +117,7 @@ app.put("/claimSession/:id", async (req, res) => {
     const volunteerId = req.user.id; // Assuming you have user authentication
 
     // Find the session by ID
-    const session = await Session.findById(sessionId);
+    const session = await db.query(Session_id);
 
     if (!session) {
       return res.status(404).json({ error: 'Session not found' });
@@ -127,14 +138,15 @@ app.put("/claimSession/:id", async (req, res) => {
 });
 
 
-const { db } = require('./db'); // Assuming you have a PostgreSQL database connection in 'db.js'
-
 exports.getAllSessions = async (req, res) => {
   try {
-    const Sessions = await db.any('SELECT * FROM sessions WHERE claimed_by IS NULL');
+    const Sessions = await db.query('SELECT * FROM sessions WHERE claimed_by IS NULL');
     return res.json(sessions);
   } catch (err) {
     console.error(err); // Log the error for debugging purposes
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+
