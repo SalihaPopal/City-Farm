@@ -1,76 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// function SessionListing() {
-//   const [Sessions, setSessions] = useState([]);
-
-//   useEffect(() => {
-  
-//     axios.get('/api/Sessions').then((response) => {
-//       setSessions(response.data);
-//     });
-//   }, []);
-
-//   function SessionClaim({ Session_id }) {
-  
-//   }
-//   return (
-//     <div>
-//       <h2>Available Sessions</h2>
-//       <ul>
-//         {Sessions.map((session) => (
-//           <li key={session.id}>
-//             {session.date}, {session.time}
-//             <button onClick={() => SessionClaim(session.id)}>Claim</button>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
-
-// export default SessionListing;
-
-
-
-// // import React, { useState, useEffect } from 'react';
-// // import axios from 'axios';
-
-// // function SessionListing() {
-// //   const [Sessions, setSessions] = useState([]);
-// //   const [claimed, setClaimed] = useState(false);
-
-// //   const claimSession = (Session_id) => {
-// //     // Make a POST request to claim the session
-// //     axios.post(`/api/Sessions/${Session_id}/claim`).then(() => {
-// //       setClaimed(true);
-// //     });
-// //   };
-
-// //   useEffect(() => {
-// //     axios.get('/api/Sessions').then((response) => {
-// //       setSessions(response.data);
-// //     });
-// //   }, []);
-
-// //   return (
-// //     <div>
-// //       <h2>Available Sessions</h2>
-// //       <ul>
-// //         {Sessions.map((session) => (
-// //           <li key={session.id}>
-// //             {session.date}, {session.time}
-// //             <button onClick={() => claimSession(session.id)}>Claim</button>
-// //           </li>
-// //         ))}
-// //       </ul>
-// //     </div>
-// //   );
-// // }
-
-// // export default SessionListing;
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -79,14 +6,14 @@ function SessionListing() {
 
   useEffect(() => {
    
-    axios.get('http://localhost:3000/Sessions').then((response) => {
+    axios.get('https://city-farm-back-end.onrender.com/Sessions').then((response) => {
       setSessions(response.data);
     });
   }, []); 
 
   const claimSession = (Session_id) => {
    
-    axios.post(`http://localhost:3000/Sessions/${Session_id}/claim`).then(() => {
+    axios.post(`https://city-farm-back-end.onrender.com/Sessions/${Session_id}/claim`).then(() => {
      
       setSessions((prevSessions) => {
         return prevSessions.map((session) => {

@@ -6,7 +6,7 @@ function SessionClaim({ Session_id }) {
 
   const claimSession = () => {
     // Make a POST request to claim the session
-    axios.post(`https://business-problem-city-farm-server.onrender.com/Sessions/${Session_id}/claim`).then(() => {
+    axios.post(`https://city-farm-back-end.onrender.com/Sessions/${Session_id}/claim`).then(() => {
       setClaimed(true);
     });
   };
