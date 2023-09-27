@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  background-image: url('https://media.istockphoto.com/id/1340686692/photo/following-her-farm-routine.jpg?s=2048x2048&w=is&k=20&c=TUhAIdcyRv5MEUUOXSGSRQl3mt9bFVqG-SCRBnbPFho=' alt='Feeding animal');
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

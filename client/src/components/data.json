@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "names": "Karley Joey",
+    "phone_number": "54398721",
+    "email": "kar@example.com"
+  },
+  {
+    "id": 2,
+    "names": "John Doe",
+    "phone_number": "123-456-7890",
+    "email": "john@example.com"
+  },
+  {
+    "id": 3,
+    "names": "Roman Joey",
+    "phone_number": "123-456-7654",
+    "email": "rom@example.com"
+  },
+  {
+    "id": 4,
+    "names": "John Roy",
+    "phone_number": "123-654-7654",
+    "email": "Roy@example.com"
+  },
+  {
+    "id": 5,
+    "names": "Gretchen Cal",
+    "phone_number": "123-654-7654",
+    "email": "cal@example.com"
+  }
+]
