@@ -18,6 +18,14 @@ CREATE TABLE IF NOT EXISTS Sessions (
     Is_Evening BOOLEAN NOT NULL
 );
 
+CREATE TABLE Volunteers (
+    Volunteer_id INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    EmailAddress VARCHAR(100),
+    PhoneNumber VARCHAR(20),
+);
+
 
 INSERT INTO Users (Name, Email, PhoneNumber, Password, Role) 
 VALUES ('John Doe', 'john@example.com', '123-456-7890', 'hashed_password', 'Manager');
