@@ -84,9 +84,9 @@ VALUES
 -- Sample data for Sessions
 INSERT INTO sessions (session_id, date, time, capacity, session_status, is_morning, is_evening, volunteer_id)
 VALUES
-    ('1', '2023-3-8', '11:30:00', '2', 'Available', '1'),
-    ('2', '2023-5-10', '14:00:00', '5', 'Available', '2'),
-    ('3', '2023-4-5', '09:00:00', '4', 'Not available','3');
+    ('1', '2023-3-8', '11:30:00', '2', 'Available','Available', '1'),
+    ('2', '2023-5-10', '14:00:00', '5','Not available', 'Available', '2'),
+    ('3', '2023-4-5', '09:00:00', '4','Available', 'Not available','3');
 
 
 -- Sample data for SessionAvailability (Assuming all sessions are initially available)
