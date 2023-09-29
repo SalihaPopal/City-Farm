@@ -37,7 +37,7 @@ function SessionListing() {
 
   return (
     <div>
-      <h2>Available Sessions</h2>
+      <h2>Claimed Sessions</h2>
       {error && <p>Error: {error}</p>}
       <ul>
         {sessions.map((session) => (
