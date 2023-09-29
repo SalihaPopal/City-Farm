@@ -38,8 +38,8 @@ function SessionListing() {
 
   return (
     <div>
-      <h2>Claimed Sessions</h2>
-      {error && <p>Error: {error}</p>}
+      <h2 className='h2'>Claimed Sessions</h2>
+      {error && <p className='p'>Error: {error}</p>}
       <ul>
         {sessions.map((session) => (
           <li key={sessions.session_id}>

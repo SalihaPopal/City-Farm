@@ -8,7 +8,7 @@ function SessionClaim({ session_id }) {
 
   const handleClaimSession = async () => {
     try {
-      // Make a POST request to claim the session
+      
       await axios.post(`http://localhost:5ooo/sessions/claim-session/${session_id}`);
       setClaimed(true);
     } catch (error) {
