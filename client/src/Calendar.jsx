@@ -1,4 +1,4 @@
-import './Calendar.css';
+import './App.css';
 import React, { useState } from "react";
 import "./App.css";
 function Calendar() {
@@ -77,7 +77,7 @@ function Calendar() {
                        year: "numeric",
                     })}
                  </h2>
-                 <button onClick={changeToNextMonth}>&gt;</button>
+                 <button className='btn' onClick={changeToNextMonth}>&gt;</button>
               </div>
               <div className="body">{showCalendar()}</div>
               {sDate && (
