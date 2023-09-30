@@ -1,22 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import './App.css'
 import axios from 'axios';
+import { response } from 'express';
 
-function SessionListing() {
+function SessionBooking() {
   const [sessions, setSessions] = useState([]);
   const [error, setError] = useState(null);
+  const [sessionStatus, setSessionStatus] = useState(false);
+
+  // useEffect(() => {
+   
+  //   axios
+  //     .get('http://localhost:5ooo/sessions') 
+  //     .then((response) => {
+  //       setSessions(response.data);
+  //     })
+  //     .catch((error) => {
+  //       setError('An error occurred while fetching sessions.');
+  //     });
+  // }, []);
 
   useEffect(() => {
-   
-    axios
-      .get('http://localhost:5ooo/sessions') 
-      .then((response) => {
-        setSessions(response.data);
-      })
-      .catch((error) => {
-        setError('An error occurred while fetching sessions.');
-      });
-  }, []);
+  
+  const fetchData = async () => {
+    const data = await fetch('http://localhost:5ooo/sessions');  
+    const json = await response.json();   // convert the data to json
+    setSessionStatus(json);
+  }
+  fetchData()
+  
+    .catch(console.error);
+  }, [fetch])
 
   const claimSession = async (session_id) => {
     try {
@@ -59,4 +73,4 @@ function SessionListing() {
   );
 }
 
-export default SessionListing;
+export default SessionBooking;

@@ -31,23 +31,23 @@ app.listen(() => console.log(`Listening on port ${port}`));
 require("dotenv").config();
 const { Client } = require('pg');
 
-// const db = new Client({
-//   port: process.env.DB_PORT,
-//   host: process.env.DB_HOSTNAME,
-//   user: process.env.DB_USERNAME,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DBDATABASE_NAME,
-//   ssl:process.env.DB_SSL
-// });
-
-
 const db = new Client({
-  user: "salihapopal",
-  host: "localhost",
-  database: "business-problem",
-  password: "",
-  port: 4321,
+  port: process.env.DB_PORT,
+  host: process.env.DB_HOSTNAME,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DBDATABASE_NAME,
+  ssl:process.env.DB_SSL
 });
+
+
+// const db = new Client({
+//   user: "salihapopal",
+//   host: "localhost",
+//   database: "business-problem",
+//   password: "",
+//   port: 5432,
+// });
 
 db.connect(function (err){
   if (err) {
@@ -100,11 +100,12 @@ app.get("/",function (req,res) {
   })
 
  // Could not add columns
-  app.get('/sessions/:session_id', (req, res) => {
-    const sessionId = Number(req.params.id)
-    db.query("SELECT * FROM sessions WHERE id = $1", [sessionId])
+  app.get('/volunteers/:volunteer_id', (req, res) => {
+    const vol = req.query
+    db.query("SELECT * FROM volunteers", [vol])
   .then((result) => {
     console.log(result);
+    res.status(200).json(result);
   })
   .catch((err) => {
     console.log(err);

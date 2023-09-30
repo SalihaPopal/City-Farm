@@ -27,10 +27,8 @@ CREATE TABLE sessions (
     is_morning BOOLEAN NOT NULL,
     is_evening BOOLEAN NOT NULL,
     manager_id INT NOT NULL,
-    manager_id INT NOT NULL,
     FOREIGN KEY (manager_id) REFERENCES managers(manager_id),
     FOREIGN KEY (manager_id) REFERENCES managers(manager_id)
-    
 );
 
 -- Create a table to track session sign-ups
@@ -82,7 +80,7 @@ VALUES
 
 
 -- Sample data for Sessions
-INSERT INTO sessions (session_id, date, time, capacity, session_status, is_morning, is_evening, volunteer_id)
+INSERT INTO sessions (session_id, date, time, capacity, is_morning, is_evening, volunteer_id)
 VALUES
     ('1', '2023-3-8', '11:30:00', '2', 'Available','Available', '1'),
     ('2', '2023-5-10', '14:00:00', '5','Not available', 'Available', '2'),

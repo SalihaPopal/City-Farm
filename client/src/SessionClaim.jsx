@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function SessionClaim({ session_id }) {
   const [claimed, setClaimed] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState([]);
 
   const handleClaimSession = async () => {
     try {
