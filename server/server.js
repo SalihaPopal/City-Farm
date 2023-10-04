@@ -60,68 +60,48 @@ db.connect(function (err){
 
 app.get("/",function (req,res) {
   res.status(200).json("Hello")
-  })
-  
-  app.get('/sessions', async (req,res) => {
-    try {
-      const result = await db.query("SELECT * FROM sessions");
-  
-      if (result.rows.length === 0) {
-        return res.json([]);
-      }
-      res.json(result.rows);
-    } catch (error) {
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  })
-  
-  app.get("/users", async (req, res) => {
-   
-    try {
-      const result = await db.query("SELECT * FROM users");
-      if (result.rows.length === 0) {
-        return res.json([]);
-      }
-      res.json(result.rows);
-    } catch (error) {
-      return res.status(500).json({ error: "Internal server error" });
-    }
   });
 
-  app.get('/users/:user_id', (req, res) => {
-    const userId = Number(req.params.id)
-    db.query("SELECT * FROM users WHERE id = $1", [userId])
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-  })
 
- // Could not add columns
-  app.get('/volunteers/:volunteer_id', (req, res) => {
-    const vol = req.query
-    db.query("SELECT * FROM volunteers", [vol])
-  .then((result) => {
-    console.log(result);
-    res.status(200).json(result);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-  });
+  
+//   app.get('/sessions', async (req,res) => {
+//     try {
+//       const result = await db.query("SELECT * FROM sessions");
+  
+//       if (result.rows.length === 0) {
+//         return res.json([]);
+//       }
+//       res.json(result.rows);
+//     } catch (error) {
+//       return res.status(500).json({ error: "Internal server error" });
+//     }
+//   })
+  
 
-  app.get('/volunteers/:volunteer_id', (req, res) => {
-    const volunteerId = Number(req.params.id)
-    db.query("SELECT * FROM volunteers WHERE id = $1", [volunteerId])
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-  })
+
+//  // Could not add columns
+//   app.get('/volunteers', (req, res) => {
+//     const vol = req.query
+//     db.query("SELECT * FROM volunteers", [vol])
+//   .then((result) => {
+//     console.log(result);
+//     res.status(200).json(result);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+//   });
+
+//   app.get('/volunteers/:volunteer_id', (req, res) => {
+//     const volunteerId = Number(req.params.id)
+//     db.query("SELECT * FROM volunteers WHERE id = $1", [volunteerId])
+//   .then((result) => {
+//     console.log(result);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+//   })
 
 
 
@@ -153,9 +133,20 @@ app.get("/",function (req,res) {
 //     });
 // });
 
-app.post('/sessions/claim-session', async (req, res) => {
+app.put('/sessions/session_id', async (req, res) => {
   try {
-    const { session_id, volunteer_id } = req.body;
+    const { session_id } = req.params;
+    const updatedBooking = 
+    "UPDATE sessions SET bookings = true WHERE session_id = $1";
+    await db.query(updatedBooking, session_id);
+    res.status(200).json({success: true, message: "booking confirmed"});
+  } catch (error) {
+    res.status(500).json({error: "Something went wrong."})
+  }
+})
+
+
+
 
     // Check if the session is available
     const sessionResult = await db.query(
@@ -238,10 +229,10 @@ app.listen(port, () => {
 
 
 
-// app.put("sessions/claimSession/:id", async (req, res) => {
+// app.put("sessions/:id", async (req, res) => {
 //   try {
-//     const sessionId = req.params.id;
-//     const volunteerId = req.user.id; // Assuming you have user authentication
+//     const {id} = req.params;
+//     const updatedBooking = "UPDATE sessions SET booking = $1 WHERE session_id = $2 FROM sessions"
 
 //     // Find the session by ID
 //     const session = await db.query(session_id);

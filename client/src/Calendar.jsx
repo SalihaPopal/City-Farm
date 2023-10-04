@@ -1,9 +1,14 @@
 import './Calendar.css';
 import React, { useState } from "react";
 import "./App.css";
-function Calendar() {
+function Calendar(props) {
 
      const [sDate, setsDate] = useState(new Date());
+     const [sessionStatus, setSessionStatus] = useState(false);
+
+     const [selectedSession, setSelectedSession] = useState(null);
+     const [bookedSessions, setBookedSessions] = useState([]);
+     const [slots, setSlots] = useState([]);
   
      const findMonthDays = (y, m) => {
         return new Date(y, m + 1, 0).getDate();
@@ -32,6 +37,35 @@ function Calendar() {
      const handleDateClick = (date) => {
         setsDate(date);
      };
+
+   //   const handleBooked = (date) => {
+   //    setSessionStatus(date)
+   //   }
+
+   const handleBooked = (session_date) => {
+      // Send a request to the backend to claim the session for the selected date
+      fetch(`https://city-farm-back-end.onrender.com/sessions/${session_date}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ date: session_date }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            setSessionStatus(session_date);
+            props.onSessionClaimed(); // Notify the parent component about the claim
+          } else {
+            // Handle error or display a message
+            console.error("Failed to claim session.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error claiming session:", error);
+        });
+    };
+  
   
      const showCalendar = () => {
         const y = sDate.getFullYear();
@@ -56,6 +90,7 @@ function Calendar() {
                  key={`d-${d}`}
                  className={`box ${isSelected ? "selected" : ""}`}
                  onClick={() => handleDateClick(date)}
+                 onClickCapture={()=> handleBooked(date)}
               >
                  {d}
               </div>

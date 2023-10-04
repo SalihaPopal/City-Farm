@@ -100,4 +100,12 @@ VALUES
 -- Sample data for SessionCancellations (Volunteer 1 cancels their session signup)
 INSERT INTO session_cancellations (cancellation_id, signup_id)
 VALUES
-    ('1' ,'');
+    ('1', '');
+
+
+
+
+
+
+
+
