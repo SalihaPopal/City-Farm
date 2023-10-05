@@ -98,32 +98,6 @@ app.get("/",function (req,res) {
   });
 
 
-// Route to allow a volunteer to claim an available session
-app.post('/sessions/claim-session/:sessionId/:volunteerId', async (req, res) => {
-  try {
-    
-   // Check if the session is available
-    const sessionId = req.body;
-    const sessionResult = await db.query(
-      'SELECT * FROM sessions WHERE session_id = $1 AND session_id NOT IN (SELECT session_id FROM session_signups)',
-      [sessionId]
-    );
-
-    if (sessionResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Session not found or already claimed' });
-    }
-    
-    await db.query(
-      'INSERT INTO session_signups (signup_id, session_id, volunteer_id) VALUES ($1, $2)',
-      [sessionId, volunteerId, signup_id]
-    );
-
-    res.status(200).json({ message: 'Session claimed successfully' });
-  } catch (error) {
-    console.error('Error claiming session:', error);
-    res.status(500).json({ error: 'An error occurred while claiming the session' });
-  }
-});
 
 
 
