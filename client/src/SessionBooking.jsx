@@ -160,12 +160,14 @@ function SessionBooking() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://city-farm-back-end.onrender.com/sessions');
+        const response = await fetch('https://city-farm-back-end.onrender.com/sessions',{
+          method: 'GET',
+        });
         if (!response.ok) {
           throw new Error(`Failed to fetch. Error: ${response.status}`);
         }
         const data = await response.json();
-        setSessions(data);
+        setSessions(data.sessions);
       } catch (error) {
         setError('An error occurred while fetching sessions.');
       }
@@ -228,8 +230,8 @@ function SessionBooking() {
       </div>
       <ul>
         {sessions.map((session) => (
-          <li key={session.session_id}>
-            {sessions.session_date}, {session.session_time}
+          <li key={sessions.session_id}>
+            {sessions.session_date}, {session.session_time},
             {!sessions.session_status ? (
               <button
                 variant="contained"

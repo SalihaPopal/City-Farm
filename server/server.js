@@ -63,112 +63,39 @@ app.get("/",function (req,res) {
   });
 
 
-  
-//   app.get('/sessions', async (req,res) => {
-//     try {
-//       const result = await db.query("SELECT * FROM sessions");
-  
-//       if (result.rows.length === 0) {
-//         return res.json([]);
-//       }
-//       res.json(result.rows);
-//     } catch (error) {
-//       return res.status(500).json({ error: "Internal server error" });
-//     }
-//   })
-  
-
-
-//  // Could not add columns
-//   app.get('/volunteers', (req, res) => {
-//     const vol = req.query
-//     db.query("SELECT * FROM volunteers", [vol])
-//   .then((result) => {
-//     console.log(result);
-//     res.status(200).json(result);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-//   });
-
-//   app.get('/volunteers/:volunteer_id', (req, res) => {
-//     const volunteerId = Number(req.params.id)
-//     db.query("SELECT * FROM volunteers WHERE id = $1", [volunteerId])
-//   .then((result) => {
-//     console.log(result);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-//   })
-
-
-
-// app.get("/sessions", (req, res) => {
-//   let claimedSession;
-
-//   // Find an available session and claim it
-//   db.query(
-//     "UPDATE sessions SET session_status = 'Claimed' WHERE session_id = (SELECT session_id FROM sessions WHERE session_status = 'Available' AND (morning_shift = true OR evening_shift = true) LIMIT 1) RETURNING *;"
-//   )
-//     .then((result) => {
-//       // Check if a session was successfully claimed
-//       if (result.rows.length > 0) {
-//         claimedSession = result.rows[0];
-//         return db.query("SELECT * FROM volunteers");
-//       } else {
-//         return Promise.reject("No available sessions to claim.");
-//       }
-//     })
-//     .then((userResult) => {
-//       res.status(200).json({
-//         Users: userResult.rows,
-//         ClaimedSession: claimedSession,
-//       });
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       res.status(500).json({ error: "An error occurred." });
-//     });
-// });
-
-app.put('/sessions/session_id', async (req, res) => {
-  try {
-    const { session_id } = req.params;
-    const updatedBooking = 
-    "UPDATE sessions SET bookings = true WHERE session_id = $1";
-    await db.query(updatedBooking, session_id);
-    res.status(200).json({success: true, message: "booking confirmed"});
-  } catch (error) {
-    res.status(500).json({error: "Something went wrong."})
-  }
-})
-
-
-
-
-    // Check if the session is available
-    const sessionResult = await db.query(
-      'SELECT * FROM sessions WHERE session_id = $1 AND session_id NOT IN (SELECT session_id FROM session_signups)',
-      [session_id]
-    );
-
-    if (sessionResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Session not found or already claimed' });
+  app.get("/sessions", async (req, res) => {
+    try {
+      const result = db.query("SELECT * FROM sessions")
+      res.status(200).json({ customers: result.rows });
+    } catch (error) {
+      console.log(error);
     }
-    
-    await db.query(
-      'INSERT INTO session_signups (session_id, volunteer_id) VALUES ($1, $2)',
-      [session_id, volunteer_id]
-    );
+  });
 
-    res.status(200).json({ message: 'Session claimed successfully' });
-  } catch (error) {
-    console.error('Error claiming session:', error);
-    res.status(500).json({ error: 'An error occurred while claiming the session' });
-  }
-});
+
+
+  app.put("/sessions/:session_id", async (req, res) => {
+    try {
+      const updatedQuery =
+        "UPDATE sessions SET session_status = true WHERE session_id = $1";
+      const { session_id } = req.params; 
+      await db.update(updatedQuery, [session_id]);
+      res.status(200).json({ success: true, message: "Booking confirmed" });
+    } catch (error) {
+      console.error(error); 
+      res.status(500).json({ error: "Something went wrong." });
+    }
+  });
+  
+
+  app.get("/volunteers", async (req, res) => {
+    try {
+      const result = db.query("SELECT * FROM vollunteers")
+      res.status(200).json({ customers: result.rows });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 
 // Route to allow a volunteer to claim an available session
@@ -198,70 +125,5 @@ app.post('/sessions/claim-session/:sessionId/:volunteerId', async (req, res) => 
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
-// app.get("/sessions/:id", async (req, res) => {
-//   try {
-//     const sessionId = req.params.id;
-
-//     // Retrieve the session by its ID
-//     const sessionResult = await db.query(
-//       "SELECT * FROM sessions WHERE session_id = $1",
-//       [sessionId]
-//     );
-
-//     if (sessionResult.rows.length === 0) {
-//       return res.status(404).json({ error: "Session not found" });
-//     }
-
-//     const session = sessionResult.rows[0];
-
-//     res.status(200).json({
-//       Session: session,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "An error occurred." });
-//   }
-// });
 
 
-
-// app.put("sessions/:id", async (req, res) => {
-//   try {
-//     const {id} = req.params;
-//     const updatedBooking = "UPDATE sessions SET booking = $1 WHERE session_id = $2 FROM sessions"
-
-//     // Find the session by ID
-//     const session = await db.query(session_id);
-
-//     if (!session) {
-//       return res.status(404).json({ error: 'Session not found' });
-//     }
-
-//     if (session.claimedBy) {
-//       return res.status(400).json({ error: 'Session already claimed' });
-//     }
-
-//     session.claimedBy = volunteerId;
-//     await session.save();
-
-//     res.json({ message: 'Session claimed successfully' });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
-
-// exports.getAllSessions = async (req, res) => {
-//   try {
-//     const sessions = await db.query('SELECT * FROM sessions WHERE  IS NULL');
-//     return res.json(sessions);
-//   } catch (err) {
-//     console.error(err); // Log the error for debugging purposes
-//     return res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// };

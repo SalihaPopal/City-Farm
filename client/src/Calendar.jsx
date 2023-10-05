@@ -5,8 +5,6 @@ function Calendar(props) {
 
      const [sDate, setsDate] = useState(new Date());
      const [sessionStatus, setSessionStatus] = useState(false);
-
-     const [selectedSession, setSelectedSession] = useState(null);
      const [bookedSessions, setBookedSessions] = useState([]);
      const [slots, setSlots] = useState([]);
   
@@ -65,7 +63,6 @@ function Calendar(props) {
           console.error("Error claiming session:", error);
         });
     };
-  
   
      const showCalendar = () => {
         const y = sDate.getFullYear();

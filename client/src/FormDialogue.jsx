@@ -78,17 +78,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function FormDialog({ sessions, onClose, onBookSession }) {
+export default function FormDialog({ session, onClose, onBookSession }) {
   const [name, setName] = useState('');
 
   const handleSubmit = () => {
+    console.log('hi')
     if (name.trim() === '') {
       alert('Error, Please provide your name.');
       return;
     }
 
     // Call the function to book the session
-    onBookSession(sessions.session_id);
+    onBookSession(session);
 
     // Close the dialog
     onClose();
