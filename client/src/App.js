@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
 import SessionBooking from './SessionBooking';
-import SessionClaim from './SessionClaim';
 import Calendar from './Calendar';
-
+import './App.css';
 
 
 function App() {
@@ -15,7 +13,6 @@ function App() {
       <Calendar onChange={setDate} value={Date} />
       {/* <h2 className='h2'>Claimed Sessions</h2> */}
       <SessionBooking />
-      <SessionClaim/>
     </div>
   );
 }

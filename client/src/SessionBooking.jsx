@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import './App.css';
 import FormDialogue from './FormDialogue'; // Import the FormDialogue component from the correct path
+import './App.css';
 
 function SessionBooking() {
   const [sessions, setSessions] = useState([]);
@@ -71,11 +71,11 @@ function SessionBooking() {
     <div>
       <h2 className="h2">Claimed Sessions</h2>
       {error && <p className="p">Error: {error}</p>}
-      <div>
-        <Button variant="contained" color="primary" onClick={handleOpenMorningDialog}>
+      <div className='btn'>
+        <Button className='mor-btn' variant="contained" color="primary" onClick={handleOpenMorningDialog}>
           Morning
         </Button>
-        <Button variant="contained" color="primary" onClick={handleOpenEveningDialog}>
+        <Button className='eve-btn' variant="contained" color="primary" onClick={handleOpenEveningDialog}>
           Evening
         </Button>
       </div>
