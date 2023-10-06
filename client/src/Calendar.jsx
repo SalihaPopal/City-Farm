@@ -35,34 +35,6 @@ function Calendar(props) {
      const handleDateClick = (date) => {
         setsDate(date);
      };
-
-   //   const handleBooked = (date) => {
-   //    setSessionStatus(date)
-   //   }
-
-   const handleBooked = (session_id) => {
-      // Send a request to the backend to claim the session for the selected date
-      fetch(`https://city-farm-back-end.onrender.com/sessions/${session_id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ date: session_id }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            setSessionStatus(session_id);
-            props.onSessionClaimed(); // Notify the parent component about the claim
-          } else {
-            // Handle error or display a message
-            console.error("Failed to claim session.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error claiming session:", error);
-        });
-    };
   
      const showCalendar = () => {
         const y = sDate.getFullYear();
@@ -87,7 +59,6 @@ function Calendar(props) {
                  key={`d-${d}`}
                  className={`box ${isSelected ? "selected" : ""}`}
                  onClick={() => handleDateClick(date)}
-                 onClickCapture={()=> handleBooked(date)}
               >
                  {d}
               </div>
