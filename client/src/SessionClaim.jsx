@@ -9,19 +9,20 @@ function SessionClaim({ session_id }) {
   const handleClaimSession = async () => {
     try {
       
-      await axios.post(`http://localhost:5ooo/sessions/claim-session/${session_id}`);
+      await axios.post(`https://city-farm-back-end.onrender.com/${session_id}`);
       setClaimed(true);
     } catch (error) {
       setError('An error occurred while claiming the session');
     }
   };
 
+ 
   return (
     <div>
-      {error && <p>Error: {error}</p>}
+      {/* {error && <p>Error: {error}</p>}
       <button onClick={handleClaimSession} disabled={claimed}>
         {claimed ? 'Claimed' : 'Claim'}
-      </button>
+      </button> */}
     </div>
   );
 }

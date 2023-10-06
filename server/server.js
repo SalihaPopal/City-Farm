@@ -98,6 +98,105 @@ app.get("/",function (req,res) {
   });
 
 
+// Bookings table
+app.get("/bookings", async function (req, res) {
+  const query = "SELECT * FROM bookings";
+  const errorMessage = "Internal server error";
+  await handleDatabaseQuery(res, query, errorMessage);
+});
+
+// Add new volunteer on one of the sessions and update bookings table
+app.post(
+  "/sessions/volunteers",
+  [
+    body("name", "Name can't be empty").notEmpty(),
+    body("lastname", "Last Name can't be empty").notEmpty(),
+    body("address", "Address can't be empty").notEmpty(),
+    body("day", "Day can't be empty").notEmpty(),
+    body("time", "Time can't be empty").notEmpty(),
+  ],
+  function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).send({
+        error: errors.array(),
+      });
+    }
+
+    const newName = req.body.name;
+    const newLastName = req.body.lastname;
+    const newAddress = req.body.address;
+    const newDay = req.body.day;
+    const newTime = req.body.time;
+
+    // Insert the new volunteer into the volunteers table
+    const volunteerQuery =
+      "INSERT INTO volunteers (name, lastname, address) VALUES ($1, $2, $3) RETURNING id";
+
+    db.query(
+      volunteerQuery,
+      [newName, newLastName, newAddress],
+      (volunteerErr, volunteerResult) => {
+        if (volunteerErr) {
+          return res.status(500).json({ error: "Internal server error" });
+        }
+
+        const volunteerId = volunteerResult.rows[0].id;
+
+        // Update the bookings table with the new volunteer
+        const bookingQuery =
+          "INSERT INTO bookings (volunteer_id, day, time) VALUES ($1, $2, $3)";
+
+        db.query(
+          bookingQuery,
+          [volunteerId, newDay, newTime],
+          (bookingErr, bookingResult) => {
+            if (bookingErr) {
+              return res.status(500).json({ error: "Internal server error" });
+            }
+
+            res.status(201).json({ message: "Volunteer added successfully" });
+          }
+        );
+      }
+    );
+  }
+);
 
 
+// Route to add a volunteer to a session
+app.post(
+  '/sessions/volunteers',
+  [
+    body('name').notEmpty().withMessage("Name can't be empty"),
+    body('email').notEmpty().withMessage("Email can't be empty"),
+    body('phone_number').notEmpty().withMessage("Phone_number can't be empty"),
+    body('address').notEmpty().withMessage("Address can't be empty"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email, phone_number, address } = req.body;
+
+    // Insert the new volunteer into the volunteers table
+    try {
+      const volunteerQuery =
+        'INSERT INTO volunteers (name, email, phone_number, address ) VALUES ($1, $2, $3, $4) RETURNING id';
+      const volunteerResult = await db.query(volunteerQuery, [name, email, phone_number, address ]);
+      const volunteerId = volunteerResult.rows[0].id;
+
+      // Update the bookings table with the new volunteer
+      const bookingQuery = 'INSERT INTO bookings (volunteer_id, date, time) VALUES ($1, $2, $3)';
+      await db.query(bookingQuery, [volunteerId, date, time]);
+
+      res.status(201).json({ message: 'Volunteer added successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+);
 

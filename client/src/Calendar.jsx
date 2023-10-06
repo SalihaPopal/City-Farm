@@ -6,7 +6,7 @@ function Calendar(props) {
      const [sDate, setsDate] = useState(new Date());
      const [sessionStatus, setSessionStatus] = useState(false);
      const [bookedSessions, setBookedSessions] = useState([]);
-     const [slots, setSlots] = useState([]);
+    
   
      const findMonthDays = (y, m) => {
         return new Date(y, m + 1, 0).getDate();
@@ -40,19 +40,19 @@ function Calendar(props) {
    //    setSessionStatus(date)
    //   }
 
-   const handleBooked = (session_date) => {
+   const handleBooked = (session_id) => {
       // Send a request to the backend to claim the session for the selected date
-      fetch(`https://city-farm-back-end.onrender.com/sessions/${session_date}`, {
+      fetch(`https://city-farm-back-end.onrender.com/sessions/${session_id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ date: session_date }),
+        body: JSON.stringify({ date: session_id }),
       })
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            setSessionStatus(session_date);
+            setSessionStatus(session_id);
             props.onSessionClaimed(); // Notify the parent component about the claim
           } else {
             // Handle error or display a message
@@ -99,7 +99,6 @@ function Calendar(props) {
   
      return (
         <div>
-
            <div className="main">
               <div className="header">
                  <button onClick={changeToPrevMonth}>&lt;</button>
@@ -114,7 +113,7 @@ function Calendar(props) {
               <div className="body">{showCalendar()}</div>
               {sDate && (
                  <div className="selected-date">
-                    Selected Date: {sDate.toLocaleDateString()}
+                    Selected Date For A Session: {sDate.toLocaleDateString()}
                  </div>
               )}
            </div>
@@ -126,3 +125,24 @@ function Calendar(props) {
   
 
 export default Calendar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

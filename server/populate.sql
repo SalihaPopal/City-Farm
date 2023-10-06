@@ -31,22 +31,10 @@ CREATE TABLE sessions (
     FOREIGN KEY (manager_id) REFERENCES managers(manager_id)
 );
 
--- Create a table to track session sign-ups
-CREATE TABLE session_signups (
-    signup_id INT PRIMARY KEY,
-    session_id INT NOT NULL,
-    volunteer_id INT NOT NULL,
-    signup_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (session_id) REFERENCES sessions(session_id),
-    FOREIGN KEY (volunteer_id) REFERENCES volunteers(volunteer_id)
-);
-
--- Create a table to track session cancellations
-CREATE TABLE session_cancellations (
-    cancellation_id INT PRIMARY KEY,
-    signup_id INT NOT NULL,
-    cancellation_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (signup_id) REFERENCES session_signups(signup_id)
+CREATE TABLE bookings (
+    booking_id INT PRIMARY KEY,
+    ses_id INT REFERENCES sessions(session_id) NOT NULL,
+    vol_id INT REFERENCES volunteers(volunteer_id) NOT NULL
 );
 
 -- Create a table to track session availability
@@ -80,27 +68,23 @@ VALUES
 
 
 -- Sample data for Sessions
-INSERT INTO sessions (session_id, date, time, capacity, is_morning, is_evening, volunteer_id)
+INSERT INTO sessions (session_id, session_status, date, time, capacity, is_morning, is_evening)
 VALUES
-    ('1', '2023-3-8', '11:30:00', '2', 'Available','Available', '1'),
-    ('2', '2023-5-10', '14:00:00', '5','Not available', 'Available', '2'),
-    ('3', '2023-4-5', '09:00:00', '4','Available', 'Not available','3');
+    ('1', 'Not booked', '2023-3-8', '11:30:00', '2', 'Available','Available'),
+    ('2', 'Not booked', '2023-5-10', '14:00:00', '5','Not available', 'Available'),
+    ('3', 'Booked', '2023-4-5', '09:00:00', '4','Available', 'Not available');
 
 
 -- Sample data for SessionAvailability (Assuming all sessions are initially available)
 INSERT INTO session_availability (availability_id , session_id) 
 VALUES('1', '1');
 
--- Sample data for SessionSignups (Volunteer 1 signs up for session 1 and Volunteer 2 signs up for session 2)
-INSERT INTO session_signups (signup_id, session_id, volunteer_id)
+INSERT INTO bookings (booking_id, ses_id, vol_id)
 VALUES
-    ('1', '1', '1'),
-    ('2', '2', '2');
-
--- Sample data for SessionCancellations (Volunteer 1 cancels their session signup)
-INSERT INTO session_cancellations (cancellation_id, signup_id)
-VALUES
-    ('1', '');
+    (1, 1, 2),
+    (2, 2, 3),
+    (3, 3, 1),
+    (4, 2, 4);
 
 
 
