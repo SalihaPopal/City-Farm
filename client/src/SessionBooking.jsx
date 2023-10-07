@@ -11,7 +11,7 @@ function SessionBooking() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://city-farm-back-end.onrender.com/sessions',{
+        const response = await fetch('https://business-problem-city-farm-server.onrender.com/sessions',{
           method: 'GET',
         });
         if (!response.ok) {
@@ -19,18 +19,22 @@ function SessionBooking() {
         }
         const data = await response.json();
         setSessions(data.sessions);
+        
       } catch (error) {
         setError('An error occurred while fetching sessions.');
       }
     };
 
     fetchData();
-  }, []); // Fetch data only once when the component mounts
+  }, []); 
+
 
   const handleBookSession = async (session_id) => {
     try {
-      const response = await fetch(`https://city-farm-back-end.onrender.com/sessions/${session_id}`, {
+      const response = await fetch(`https://business-problem-city-farm-server.onrender.com/${session_id}`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: 'React POST Request Example' })
       });
 
       if (!response.ok) {
