@@ -11,11 +11,9 @@ CREATE TABLE managers (
 -- Create a table to store Volunteers
 CREATE TABLE volunteers (
     volunteer_id INT PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20), -- Corrected data type here
-    address VARCHAR(255) NOT NULL
+    full_name VARCHAR(50) NOT NULL,
+    email_address VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) 
 );
 
 
@@ -23,11 +21,9 @@ CREATE TABLE volunteers (
 CREATE TABLE sessions (
     session_id INT PRIMARY KEY,
     session_date DATE NOT NULL,
-    session_time TIME NOT NULL,
-    capacity INT NOT NULL,
-    is_morning BOOLEAN NOT NULL,
-    is_evening BOOLEAN NOT NULL,
-    session_status VARCHAR(50) NOT NULL
+    session_slot VARCHAR(50) NOT NULL,
+    session_status VARCHAR(50) NOT NULL,
+    
 );
 
 CREATE TABLE bookings (
@@ -55,26 +51,27 @@ VALUES
     ('2', 'John', 'Roman', 'rom@example.com', '987-654-3210', '456 Old St');
 
 
-
-
 -- Sample data for Volunteers
-INSERT INTO volunteers (volunteer_id, first_name, last_name, email, phone_number, address)
+INSERT INTO volunteers (volunteer_id, full_name, email_address, phone_number)
 VALUES
-    ('1', 'Roman', 'Joey', 'rom@example.com', '111-222-3333', '123 Main St'),
-    ('2', 'Roma', 'Roma', 'roma@example.com', '111-222-444', '113 Main St'),
-    ('3', 'Joey', 'hashed_password_5', 'joey@example.com', '111-222-5555', '122 Main St'),
-    ('4', 'Hiking', 'Hiking', 'hik@example.com', '111-222-6666', '223 Main St'),
-    ('5', 'Shreen', 'Ali', 'shreen@example.com', '111-222-777', '333 Main St'),
-    ('6', 'John', 'Roy', 'Roy@example.com', '444-555-6666', '114 Main St');
+    ('1', 'Roman Joey', 'rom@example.com', '111-222-3333'),
+    ('2', 'Roma Roma', 'roma@example.com', '111-222-444'),
+    ('3', 'Joey hashed_password_5', 'joey@example.com', '111-222-5555'),
+    ('4', 'Hiking Hiking', 'hik@example.com', '111-222-6666'),
+    ('5', 'Shireen Ali', 'shreen@example.com', '111-222-777'),
+    ('6', 'John Roy', 'Roy@example.com', '444-555-6666');
 
 
 
 -- Sample data for Sessions
-INSERT INTO sessions (session_id, session_date, session_time, capacity, is_morning, is_evening, session_status)
+INSERT INTO sessions (session_id, session_date, session_slot, session_status)
 VALUES
-    ('1', '2023-9-8', '11:30:00', '2', 'false','false', 'Not Available'),
-    ('2', '2023-9-10', '14:00:00', '5','false', 'true', 'Available'),
-    ('3', '2023-10-5', '09:00:00', '4','true', 'false', 'Available');
+    ('1','2023-10-13', 'morning', 'Not Available'),
+    ('2','2023-10-14', 'evening', 'Available'),
+    ('3','2023-10-15', 'morning', 'Available'),
+    ('4','2023-10-16', 'morning', 'Not Available'),
+    ('5','2023-10-17', 'evening', 'Available'),
+    ('6','2023-10-18', 'morning', 'Not Available');
 
 
 -- Sample data for SessionAvailability (Assuming all sessions are initially available)
